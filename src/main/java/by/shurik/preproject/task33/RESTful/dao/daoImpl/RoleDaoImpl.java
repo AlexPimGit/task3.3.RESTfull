@@ -1,5 +1,6 @@
-package by.shurik.preproject.task33.RESTful.dao;
+package by.shurik.preproject.task33.RESTful.dao.daoImpl;
 
+import by.shurik.preproject.task33.RESTful.dao.RoleDao;
 import by.shurik.preproject.task33.RESTful.model.Role;
 import org.springframework.stereotype.Repository;
 

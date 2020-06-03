@@ -1,7 +1,8 @@
-package by.shurik.preproject.task33.RESTful.service;
+package by.shurik.preproject.task33.RESTful.service.serviceImpl;
 
 import by.shurik.preproject.task33.RESTful.dao.RoleDao;
 import by.shurik.preproject.task33.RESTful.model.Role;
+import by.shurik.preproject.task33.RESTful.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

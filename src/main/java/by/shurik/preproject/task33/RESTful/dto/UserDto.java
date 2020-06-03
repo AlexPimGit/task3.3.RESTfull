@@ -1,4 +1,7 @@
-package by.shurik.preproject.task33.RESTful.model;
+package by.shurik.preproject.task33.RESTful.dto;
+
+import by.shurik.preproject.task33.RESTful.model.Role;
+import by.shurik.preproject.task33.RESTful.model.User;
 
 import java.util.Arrays;
 
@@ -24,6 +27,7 @@ public class UserDto {
         Object[] objectArr = user.getRoles().stream().map(Role::getName).toArray();
         this.roles = Arrays.copyOf(objectArr, objectArr.length, String[].class);
     }
+
 
 
     public Long getId() {
@@ -81,4 +85,6 @@ public class UserDto {
     public void setRoles(String[] roles) {
         this.roles = roles;
     }
+
+
 }

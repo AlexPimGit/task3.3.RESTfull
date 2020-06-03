@@ -1,6 +1,7 @@
-package by.shurik.preproject.task33.RESTful.service;
+package by.shurik.preproject.task33.RESTful.security;
 
 import by.shurik.preproject.task33.RESTful.model.User;
+import by.shurik.preproject.task33.RESTful.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

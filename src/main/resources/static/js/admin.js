@@ -38,39 +38,42 @@ $(document).ready(function () {
         })
     }
 
-    $('#addButton').click(function () {
-        // e.preventDefault();//отмена действия браузера по умолчанию (действия на сервер) - при клике на кнопку не произойдет отправка Post, она произойдет потом
-        // $('#addingNewUserDiv').html('<h4>Adding new user...</h4>').fadeIn(3000, function () {
-        var newObject = {};
-        newObject ["name"] = $("#nameTextInput").val();
-        newObject["userPassword"] = $("#userPasswordTextInput").val();
-        newObject["position"] = $("#positionTextInput").val();
-        newObject["age"] = $("#ageTextInput").val();
-        newObject["email"] = $("#emailTextInput").val();
-        newObject["roles"] = $("#roleSelectNU").val();
+    $('#addButton').click(function (e) {
+        e.preventDefault();//отмена действия браузера по умолчанию (действия на сервер) - при клике на кнопку не произойдет отправка Post, она произойдет потом
+        // $('#addingNewUserDiv').html('<h4>Adding new user...</h4>').fadeIn(4000, function () {
+        $('#addingNewUserDiv').html('<h4>New User added!</h4>').fadeOut(2000, function () {
 
-        $.ajax({
-            url: '/admin/addUser',
-            type: 'POST',
-            contentType: "application/json;charset=UTF-8",
-            data: JSON.stringify(newObject),//отправляем на сервер JSON преобразовав объект newObject через метод JSON.stringify()
-            dataType: 'json',
-            // context: document.getElementById('addingNewUserDiv'),// this = document.getElementById(..)
-            success: function (data) {//data - данные с сервера (DTO)
-                // $(this).fadeOut(3000, function () {//скрывает элементы(определяющая длительность анимации, Функция по окончании выполнения анимации, вызывается для каждого соответствующего элемента)
-                //     $(this).toggleClass('alert-primary alert-success');//добавляет класс если есть, удаляет если нет
-                //     $(this).find('h4').attr('class', 'alert-heading').text('New user added!');
-                //     $(this).append(`<hr><h2>Hello, I'm user from DTO</h2><h5>User ${data.username}</h5><p>id: ${data.id}</p><p>email: ${data.email}</p><p>roles: ${data.roles}</p>`);
-                //     $(this).fadeIn(1000)//this появится за 1 сек
-                //         .delay(4000) //задержка 4 сек
-                //         .fadeOut(1000, function () {// this скрывается за 1 сек и выполняется функция
-                //             $("#addForm").trigger("reset");//выполняет "reset" для каждого класса у которого есть функция reset (инпуты)
-                //         });
-                // });
 
-                var tableBody = $('#myTbody');
+            var newObject = {};
+            newObject ["name"] = $("#nameTextInput").val();
+            newObject["userPassword"] = $("#userPasswordTextInput").val();
+            newObject["position"] = $("#positionTextInput").val();
+            newObject["age"] = $("#ageTextInput").val();
+            newObject["email"] = $("#emailTextInput").val();
+            newObject["roles"] = $("#roleSelectNU").val();
 
-                tableBody.append(`<tr id="${data.id}">
+            $.ajax({
+                url: '/admin/addUser',
+                type: 'POST',
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify(newObject),//отправляем на сервер JSON преобразовав объект newObject через метод JSON.stringify()
+                dataType: 'json',
+                context: document.getElementById('addingNewUserDiv'),// this = document.getElementById(..)
+                success: function (data) {//data - данные с сервера (DTO)
+                    // $(this).fadeOut(3000, function () {//скрывает элементы(определяющая длительность анимации, Функция по окончании выполнения анимации, вызывается для каждого соответствующего элемента)
+                    //     $(this).toggleClass('alert-primary alert-success');//добавляет класс если есть, удаляет если нет
+                    //     $(this).find('h4').attr('class', 'alert-heading').text('New user added!');
+                    //     $(this).append(`<hr><h2>Hello, I'm user from DTO</h2><h5>User ${data.username}</h5><p>id: ${data.id}</p><p>email: ${data.email}</p><p>roles: ${data.roles}</p>`);
+                    //     $(this).fadeIn(1000)//this появится за 1 сек
+                    //         .delay(4000) //задержка 4 сек
+                    //         .fadeOut(1000, function () {// this скрывается за 1 сек и выполняется функция
+                    //             $("#addForm").trigger("reset");//выполняет "reset" для каждого класса у которого есть функция reset (инпуты)
+                    //         });
+                    // });
+                    $("#addForm").trigger("reset");
+                    var tableBody = $('#myTbody');
+
+                    tableBody.append(`<tr id="${data.id}">
                     <td id="userId-${data.id}">${data.id}</td>
                     <td id="userName-${data.id}">${data.name}</td>
                     <td id="userPosition-${data.id}">${data.position}</td>
@@ -82,12 +85,12 @@ $(document).ready(function () {
                     <td><button type="button" class="btn btn-danger delete-user" data-toggle="modal" data-target="#windowModal"
                     id="deleteModalButton-${data.id}">Delete</button></td>
                     </tr>`);
-
-            },
-            error:
-                function () {
-                    alert("Error in ADD");
-                }
+                },
+                error:
+                    function () {
+                        alert("Error in ADD");
+                    }
+            });
         });
     });
 
@@ -141,7 +144,6 @@ $(document).ready(function () {
     // надо сделать уточнитель-селектор в методе on
     //  Выборка - в классе .modal-footer для любого нового элемента a с классом btn-info будем делать следующее
     $('.modal-footer').on('click', 'a.btn-info', function () {
-        alert("edit");
         var updateObject = {};
         updateObject["id"] = $("#IdInput").val();
         updateObject["name"] = $("#nameInput").val();

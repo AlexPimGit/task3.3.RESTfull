@@ -1,15 +1,15 @@
 package by.shurik.preproject.task33.RESTful.service;
 
 import by.shurik.preproject.task33.RESTful.model.User;
-import by.shurik.preproject.task33.RESTful.model.UserDto;
+import by.shurik.preproject.task33.RESTful.dto.UserDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    Optional<UserDto> addUser(UserDto user);
+    Optional<User> addUser(User user);
 
-    Optional<UserDto> updateUser(UserDto user);
+    Optional<User> updateUser(User user);
 
     void removeUser(Long id);
 

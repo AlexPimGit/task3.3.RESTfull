@@ -16,8 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
     private UserService userService;
 
+//    @Autowired
+//    public AdminController(UserService userService) {
+//        this.userService = userService;
+//    }
+
     @Autowired
-    public AdminController(UserService userService) {
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 

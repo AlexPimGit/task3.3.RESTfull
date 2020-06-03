@@ -1,31 +1,29 @@
 package by.shurik.preproject.task33.RESTful.controller;
 
-import by.shurik.preproject.task33.RESTful.model.Role;
+import by.shurik.preproject.task33.RESTful.mapper.UserMapper;
 import by.shurik.preproject.task33.RESTful.model.User;
-import by.shurik.preproject.task33.RESTful.model.UserDto;
+import by.shurik.preproject.task33.RESTful.dto.UserDto;
 import by.shurik.preproject.task33.RESTful.service.RoleService;
 import by.shurik.preproject.task33.RESTful.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 
 @RestController
-//@CrossOrigin(origins = "*")
 @RequestMapping("/admin")
 public class CustomRestController {
     private UserService userService;
-    private RoleService roleService;
+    private UserMapper userMapper;
 
     @Autowired
-    public CustomRestController(UserService userService, RoleService roleService) {
+    public CustomRestController(UserService userService, UserMapper userMapper) {
         this.userService = userService;
-        this.roleService = roleService;
+        this.userMapper = userMapper;
     }
 
     @PostMapping("/addUser")
@@ -37,25 +35,33 @@ public class CustomRestController {
                 "".equals(newDtoUser.getEmail())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        Optional<UserDto> optionalUserDto = userService.addUser(newDtoUser);
-        if (optionalUserDto.isPresent()) {
-            return new ResponseEntity<>(optionalUserDto.get(), HttpStatus.OK);
+//        Optional<UserDto> optionalUserDto = userService.addUser(newDtoUser);
+//        if (optionalUserDto.isPresent()) {
+//            return new ResponseEntity<>(optionalUserDto.get(), HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.CREATED);
+        Optional<User> optionalUser = userService.addUser(userMapper.getUserFromDto(newDtoUser));
+        if (optionalUser.isPresent()) {
+            UserDto backUserDto = userMapper.getUserDtoFromUser(optionalUser.get());
+            return new ResponseEntity<>(backUserDto, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-//
-//    @GetMapping("/allUsers")
-//    public List<User> getAllUsers() {
-//        return userService.listUser();
-//    }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody UserDto updateUserDto) {
-        Optional<UserDto> optionalUserDto = userService.updateUser(updateUserDto);
-        if (optionalUserDto.isPresent()) {
-            return new ResponseEntity<>(optionalUserDto.get(), HttpStatus.OK);
+        Optional<User> optionalUser = userService.updateUser(userMapper.getUserFromDto(updateUserDto));
+        if (optionalUser.isPresent()) {
+            UserDto backUserDto = userMapper.getUserDtoFromUser(optionalUser.get());
+            return new ResponseEntity<>(backUserDto, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>((HttpStatus.BAD_REQUEST));
+//        Optional <User> optionalUser =
+//        Optional<UserDto> optionalUserDto = userService.updateUser(updateUserDto);
+//        if (optionalUserDto.isPresent()) {
+//            return new ResponseEntity<>(optionalUserDto.get(), HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/allUsers")

@@ -1,5 +1,6 @@
-package by.shurik.preproject.task33.RESTful.config;
+package by.shurik.preproject.task33.RESTful.security.config;
 
+import by.shurik.preproject.task33.RESTful.config.LoginSuccessHandler;
 import by.shurik.preproject.task33.RESTful.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,13 +18,19 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Qualifier("userDetailsServiceImpl")
-    @Autowired
+
     private UserDetailsService userDetailsService;
-    @Autowired
     private LoginSuccessHandler loginSuccessHandler;
+
     @Autowired
-    private RoleService roleService;
+    public void setUserDetailsService(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Autowired
+    public void setLoginSuccessHandler(LoginSuccessHandler loginSuccessHandler) {
+        this.loginSuccessHandler = loginSuccessHandler;
+    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -55,21 +62,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable();
         http
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasAuthority(roleService.getRoleById(1L).getName())
-                .antMatchers("/user/**").hasAnyAuthority(roleService.getRoleById(2L).getName(), roleService.getRoleById(2L).getName())
-                .antMatchers("/", "/home", "/403", "/test","/testModal").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/home", "/403", "/test", "/testModal").permitAll()
                 .anyRequest().authenticated();
         http.httpBasic();
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        //Web resources
         web.ignoring().antMatchers("/css/**");
         web.ignoring().antMatchers("/js/**");
-//        web.ignoring().antMatchers("/images/**");
-//        web.ignoring().antMatchers("/fonts/**");
-//        web.ignoring().antMatchers("/vendor/**");
     }
 
 }

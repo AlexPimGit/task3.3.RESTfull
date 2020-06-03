@@ -1,5 +1,6 @@
 package by.shurik.preproject.task33.RESTful.model;
 
+import by.shurik.preproject.task33.RESTful.dto.UserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
