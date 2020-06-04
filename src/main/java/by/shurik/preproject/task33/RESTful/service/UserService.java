@@ -1,7 +1,6 @@
 package by.shurik.preproject.task33.RESTful.service;
 
 import by.shurik.preproject.task33.RESTful.model.User;
-import by.shurik.preproject.task33.RESTful.dto.UserDto;
 
 import java.util.List;
 import java.util.Optional;

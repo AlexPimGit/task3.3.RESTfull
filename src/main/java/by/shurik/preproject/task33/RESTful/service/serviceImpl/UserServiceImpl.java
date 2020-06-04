@@ -1,10 +1,7 @@
 package by.shurik.preproject.task33.RESTful.service.serviceImpl;
 
 import by.shurik.preproject.task33.RESTful.dao.UserDao;
-import by.shurik.preproject.task33.RESTful.model.Role;
 import by.shurik.preproject.task33.RESTful.model.User;
-import by.shurik.preproject.task33.RESTful.dto.UserDto;
-import by.shurik.preproject.task33.RESTful.service.RoleService;
 import by.shurik.preproject.task33.RESTful.service.UserService;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,30 +9,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @Service
 public class UserServiceImpl implements UserService {
     private UserDao userDao;
-    private RoleService roleService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-//    @Autowired
-//    public UserServiceImpl(UserDao userDao, BCryptPasswordEncoder bCryptPasswordEncoder, RoleService roleService) {
-//        this.userDao = userDao;
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-//        this.roleService = roleService;
-//    }
 
     @Autowired
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
-    }
-
-    @Autowired
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
     }
 
     @Autowired
@@ -47,9 +32,6 @@ public class UserServiceImpl implements UserService {
     public Optional<User> addUser(User user) {
         user.setUserPassword(bCryptPasswordEncoder.encode(user.getUserPassword()));
         if (userDao.addUser(user)) {
-//            user = userDao.findByUserEmail(user.getEmail());
-//            user.setId(user.getId());
-//            user.setUserPassword("");
             return Optional.of(user);
         }
         return Optional.empty();

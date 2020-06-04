@@ -1,9 +1,8 @@
 package by.shurik.preproject.task33.RESTful.controller;
 
+import by.shurik.preproject.task33.RESTful.dto.UserDto;
 import by.shurik.preproject.task33.RESTful.mapper.UserMapper;
 import by.shurik.preproject.task33.RESTful.model.User;
-import by.shurik.preproject.task33.RESTful.dto.UserDto;
-import by.shurik.preproject.task33.RESTful.service.RoleService;
 import by.shurik.preproject.task33.RESTful.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,11 +34,6 @@ public class CustomRestController {
                 "".equals(newDtoUser.getEmail())) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-//        Optional<UserDto> optionalUserDto = userService.addUser(newDtoUser);
-//        if (optionalUserDto.isPresent()) {
-//            return new ResponseEntity<>(optionalUserDto.get(), HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(HttpStatus.CREATED);
         Optional<User> optionalUser = userService.addUser(userMapper.getUserFromDto(newDtoUser));
         if (optionalUser.isPresent()) {
             UserDto backUserDto = userMapper.getUserDtoFromUser(optionalUser.get());
@@ -56,12 +50,6 @@ public class CustomRestController {
             return new ResponseEntity<>(backUserDto, HttpStatus.OK);
         }
         return new ResponseEntity<>((HttpStatus.BAD_REQUEST));
-//        Optional <User> optionalUser =
-//        Optional<UserDto> optionalUserDto = userService.updateUser(updateUserDto);
-//        if (optionalUserDto.isPresent()) {
-//            return new ResponseEntity<>(optionalUserDto.get(), HttpStatus.OK);
-//        }
-//        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/allUsers")

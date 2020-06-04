@@ -1,4 +1,4 @@
-package by.shurik.preproject.task33.RESTful.config;
+package by.shurik.preproject.task33.RESTful.security;
 
 
 import by.shurik.preproject.task33.RESTful.service.RoleService;

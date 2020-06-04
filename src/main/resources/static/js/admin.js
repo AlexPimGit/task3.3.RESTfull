@@ -12,9 +12,6 @@ $(document).ready(function () {
                 tableBody.empty();
                 $(data).each(function (i, user) {//перебираем все элементы в data
                     var stringRoles = [];
-                    // $(user.roles).each(function (i, role) {
-                    //     stringRoles += role.valueOf();
-                    // });
                     for (var y = 0; y < user.roles.length; y++) {
                         stringRoles.push(user.roles[y].name);
                     }
@@ -40,7 +37,6 @@ $(document).ready(function () {
 
     $('#addButton').click(function (e) {
         e.preventDefault();//отмена действия браузера по умолчанию (действия на сервер) - при клике на кнопку не произойдет отправка Post, она произойдет потом
-        // $('#addingNewUserDiv').html('<h4>Adding new user...</h4>').fadeIn(4000, function () {
         $('#addingNewUserDiv').html('<h4>New User added!</h4>').fadeOut(2000, function () {
 
 
@@ -60,16 +56,6 @@ $(document).ready(function () {
                 dataType: 'json',
                 context: document.getElementById('addingNewUserDiv'),// this = document.getElementById(..)
                 success: function (data) {//data - данные с сервера (DTO)
-                    // $(this).fadeOut(3000, function () {//скрывает элементы(определяющая длительность анимации, Функция по окончании выполнения анимации, вызывается для каждого соответствующего элемента)
-                    //     $(this).toggleClass('alert-primary alert-success');//добавляет класс если есть, удаляет если нет
-                    //     $(this).find('h4').attr('class', 'alert-heading').text('New user added!');
-                    //     $(this).append(`<hr><h2>Hello, I'm user from DTO</h2><h5>User ${data.username}</h5><p>id: ${data.id}</p><p>email: ${data.email}</p><p>roles: ${data.roles}</p>`);
-                    //     $(this).fadeIn(1000)//this появится за 1 сек
-                    //         .delay(4000) //задержка 4 сек
-                    //         .fadeOut(1000, function () {// this скрывается за 1 сек и выполняется функция
-                    //             $("#addForm").trigger("reset");//выполняет "reset" для каждого класса у которого есть функция reset (инпуты)
-                    //         });
-                    // });
                     $("#addForm").trigger("reset");
                     var tableBody = $('#myTbody');
 
@@ -94,11 +80,7 @@ $(document).ready(function () {
         });
     });
 
-
-//для id=myTbody, если событие поднялось по  'click' из класса '.delete-user',то работает функция
     $('#myTbody').on('click', '.delete-user', function () {
-        // var id = this.id.slice(this.id.lastIndexOf("-") + 1);
-
         document.getElementById('ModalTitle').textContent = 'Delete User';
         document.getElementById('actionButton').textContent = 'Delete User';
         document.getElementById('actionButton').className = 'btn btn-danger';
@@ -181,9 +163,6 @@ $(document).ready(function () {
 
 
     function showModalValuesWindow(object) {
-        //id = id из класса кнопки "delete-user" (или "edit-user") = id="deleteModalButton' + json[i].id + '"
-        //т.к.  нумерация начинается с нуля, добавляем 1
-        //id = deleteModalButton(id+1)
         var id = object.id.slice(object.id.lastIndexOf("-") + 1);
         $('#IdInput').attr('value', id);
         $('#nameInput').attr('value', $('#userName-' + id).text());

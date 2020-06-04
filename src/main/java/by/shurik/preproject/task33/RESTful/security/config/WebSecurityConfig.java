@@ -1,7 +1,6 @@
 package by.shurik.preproject.task33.RESTful.security.config;
 
-import by.shurik.preproject.task33.RESTful.config.LoginSuccessHandler;
-import by.shurik.preproject.task33.RESTful.service.RoleService;
+import by.shurik.preproject.task33.RESTful.security.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -22,14 +21,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
     private LoginSuccessHandler loginSuccessHandler;
 
-    @Autowired
-    public void setUserDetailsService(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
-    @Autowired
-    public void setLoginSuccessHandler(LoginSuccessHandler loginSuccessHandler) {
+    public WebSecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, LoginSuccessHandler loginSuccessHandler) {
         this.loginSuccessHandler = loginSuccessHandler;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean
@@ -64,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/user/**").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers("/home", "/403", "/test", "/testModal").permitAll()
+                .antMatchers("/", "/home", "/403", "/test", "/testModal").permitAll()
                 .anyRequest().authenticated();
         http.httpBasic();
     }

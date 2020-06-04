@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Component
@@ -38,8 +37,6 @@ public class UserMapperImpl implements UserMapper {
         Long userId = (userDao.findByUserEmail(user.getEmail())).getId();
         UserDto userDto = new UserDto(user);
         userDto.setId(userId);
-//        userDto.setUserPassword("");
-
         return userDto;
     }
 
